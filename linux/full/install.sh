@@ -1,17 +1,52 @@
 #!/bin/bash
 
+function getJava() {
+    if type -p java; then
+        echo found java executable in PATH
+        _java=$(whereis java)
+    elif [[ -n "$JAVA_HOME" ]] && [[ -x "$JAVA_HOME/bin/java" ]];  then
+        echo found java executable in JAVA_HOME     
+        _java="$JAVA_HOME/bin/java"
+    else
+        echo "No java found. Please install a Java Runtime v1.8"
+        exit
+    fi
+
+    if [[ "$_java" ]]; then
+        fullversion=$("$_java" -version 2>&1 | awk -F '"' '/version/ {print $2}')
+        version=${fullversion:0:3}
+        echo version "$fullversion"
+        if [[ "$version" = "1.8" ]]; then
+            JAVA_PATH=$_java
+        else         
+            echo "Version is different from version 1.8. Kapsul may not work"
+            JAVA_PATH=$_java
+        fi
+    fi
+}
+
+# Default user
+KAPSUL_USER=root
+
 # Parse inputs
-while getopts r:v:f: flag
+while getopts r:v:u:t: flag
 do
     case "${flag}" in
         r) REGISTRY_TOKEN=${OPTARG};;
         v) VERSION=${OPTARG};;
-        f) fullname=${OPTARG};;
+        u) KAPSUL_USER=${OPTARG};;
+        t) TEST=true;;
     esac
 done
 
 STEPS=7
-PATH_PREFIX='./test'
+
+# If test mode enable, add relative path
+if [ "$TEST" = true ] ; then
+    PATH_PREFIX='./test'
+else 
+    PATH_PREFIX=''
+fi
 
 # Create opt folder
 BINARY_FILE_PATH="$PATH_PREFIX/opt/kapsul"
@@ -20,7 +55,7 @@ echo "Step 1/$STEPS. Creating folder $BINARY_FILE_PATH ..."
 
 # Get the JAR file
 echo "Step 2/$STEPS. Getting the jar file ..."
-    #curl --header "PRIVATE-TOKEN:$REGISTRY_TOKEN" "https://code.fabrick.io/api/v4/projects/189/packages/generic/kapsul/1.0.7/kapsul.jar" --output $BINARY_FILE_PATH/kapsul-$VERSION.jar
+    curl --header "PRIVATE-TOKEN:$REGISTRY_TOKEN" "https://code.fabrick.io/api/v4/projects/189/packages/generic/kapsul/1.0.7/kapsul.jar" --output $BINARY_FILE_PATH/kapsul-$VERSION.jar
 echo -e "Step 2/$STEPS. Done.\n"
 
 # Get the configuration file
@@ -30,10 +65,9 @@ echo -e "Step 3/$STEPS. Creating folder $CONFIG_FILE_PATH ...\n"
 
 # Get an edit confs files
 echo "Step 4/$STEPS. Getting the configuration file ..."
-    # To change
-    cp ./configs/kapsul.conf $CONFIG_FILE_PATH/kapsul.conf
-    cp ./configs/logback.xml $CONFIG_FILE_PATH/logback.xml
-    #curl --header "PRIVATE-TOKEN:$REGISTRY_TOKEN" "https://code.fabrick.io/api/v4/projects/189/packages/generic/kapsul/1.0.7/kapsul.jar" --output kapsul-$VERSION.jar
+    # Download conf files
+    curl "https://raw.githubusercontent.com/fabrick/kapsul/main/linux/full/configs/kapsul.conf" -o $CONFIG_FILE_PATH/kapsul.conf
+    curl "https://raw.githubusercontent.com/fabrick/kapsul/main/linux/full/configs/logback.xml" -o $CONFIG_FILE_PATH/logback.xml
 
     # Edit conf file
     DATA_FOLDER=$BINARY_FILE_PATH/data
@@ -61,8 +95,20 @@ echo -e "Step 5/$STEPS. Done\n"
 
 # Get the service file
 echo "Step 6/$STEPS. Getting the service file ..."
-    CONFIG_FILE_PATH="$PATH_PREFIX/etc/systemd/system/"
-    mkdir -p $CONFIG_FILE_PATH
-    touch $CONFIG_FILE_PATH/kapsul.service
-    #curl --header "PRIVATE-TOKEN:$REGISTRY_TOKEN" "https://code.fabrick.io/api/v4/projects/189/packages/generic/kapsul/1.0.7/kapsul.jar" --output kapsul-$VERSION.jar
+    getJava
+    SERVICE_FILE_PATH="$PATH_PREFIX/etc/systemd/system/"
+    mkdir -p $SERVICE_FILE_PATH
+    curl "https://raw.githubusercontent.com/fabrick/kapsul/main/linux/full/configs/kapsul.service" -o $SERVICE_FILE_PATH/kapsul.service
+    
+    sed -i '' "s|\$KAPSUL_USER|root|g" "$SERVICE_FILE_PATH/kapsul.service"
+    sed -i '' "s|\$KAPSUL_WORK_DIR|$BINARY_FILE_PATH|g" "$SERVICE_FILE_PATH/kapsul.service"
+    sed -i '' "s|\$JAVA_PATH|$JAVA_PATH|g" "$SERVICE_FILE_PATH/kapsul.service"
+    sed -i '' "s|\$KAPSUL_CONFIG_PATH|$CONFIG_FILE_PATH/kapsul.conf|g" "$SERVICE_FILE_PATH/kapsul.service"
+    sed -i '' "s|\$KAPSUL_JAR_PATH|$BINARY_FILE_PATH/kapsul-$VERSION.jar|g" "$SERVICE_FILE_PATH/kapsul.service"
+
 echo -e "Step 6/$STEPS. Done.\n"
+
+echo "Step 7/$STEPS. Addind Kapsul to systemd ..."
+    systemctl daemon-reload
+    systemctl start kapsul
+echo -e "Step 7/$STEPS. Done, enjoy :)\n"
