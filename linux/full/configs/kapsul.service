@@ -1,0 +1,21 @@
+[Unit]
+Description=Kapsul
+After=network-online.target
+
+[Service]
+Type=simple
+User=$KAPSUL_USER
+Group=$KAPSUL_USER
+
+WorkingDirectory=$KAPSUL_WORK_DIR
+
+ExecStart=$JAVA_PATH \
+  -Dcom.ibm.as400.access.AS400.guiAvailable=false \
+  -Dconfig.file=KAPSUL_CONFIG_PATH \
+  -jar $KAPSUL_JAR_PATH
+
+Restart=on-failure
+TimeoutStopSec=300
+
+[Install]
+WantedBy=multi-user.target
