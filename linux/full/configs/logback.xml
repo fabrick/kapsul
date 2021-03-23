@@ -1,0 +1,29 @@
+<configuration>
+    <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}/kapsul.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${HOME_LOG}/old/kapsul.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d %p %c{1.} %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date [%level] %logger - %message%n%xException</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="KAPSUL-MEM" class="io.fabrick.kapsul.logging.MemoryAppender">
+        <limit>10000</limit>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE-ROLLING" />
+        <appender-ref ref="KAPSUL-MEM" />
+    </root>
+</configuration>
