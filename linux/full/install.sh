@@ -101,24 +101,24 @@ echo "Step 4/$STEPS. Getting the configuration file ..."
     # Edit conf file
     DATA_FOLDER=$BINARY_FILE_PATH/data
     mkdir -p $DATA_FOLDER
-    sed -i '' "s|\$DATA_FOLDER|$DATA_FOLDER|g" "$CONFIG_FILE_PATH/kapsul.conf"
+    sed -i "s|\$DATA_FOLDER|$DATA_FOLDER|g" "$CONFIG_FILE_PATH/kapsul.conf"
 
     # Edit logback file
     HOME_LOG="$PATH_PREFIX/var/logs"
     mkdir -p $HOME_LOG
-    sed -i '' "s|\${HOME_LOG}|$HOME_LOG|g" "$CONFIG_FILE_PATH/logback.xml"
+    sed -i "s|\${HOME_LOG}|$HOME_LOG|g" "$CONFIG_FILE_PATH/logback.xml"
 
 echo -e "Step 4/$STEPS. Done.\n"
 
 # Key generation
 echo "Step 5/$STEPS. Generating keys"
     ADMIN_KEY=$(uuidgen | sed -e "s/\-//g")
-    sed -i '' "s|\$ADMIN_KEY|$ADMIN_KEY|g" "$CONFIG_FILE_PATH/kapsul.conf"
+    sed -i "s|\$ADMIN_KEY|$ADMIN_KEY|g" "$CONFIG_FILE_PATH/kapsul.conf"
     echo "Admin key: $ADMIN_KEY"
 
 
     USER_KEY=$(uuidgen | sed -e "s/\-//g") 
-    sed -i '' "s|\$USER_KEY|$USER_KEY|g" "$CONFIG_FILE_PATH/kapsul.conf"
+    sed -i "s|\$USER_KEY|$USER_KEY|g" "$CONFIG_FILE_PATH/kapsul.conf"
     echo "Client key: $USER_KEY"
 echo -e "Step 5/$STEPS. Done\n"
 
@@ -129,11 +129,11 @@ echo "Step 6/$STEPS. Getting the service file ..."
     mkdir -p $SERVICE_FILE_PATH
     curl "https://raw.githubusercontent.com/fabrick/kapsul/main/linux/full/configs/kapsul.service" -o $SERVICE_FILE_PATH/kapsul.service
     
-    sed -i '' "s|\$KAPSUL_USER|root|g" "$SERVICE_FILE_PATH/kapsul.service"
-    sed -i '' "s|\$KAPSUL_WORK_DIR|$BINARY_FILE_PATH|g" "$SERVICE_FILE_PATH/kapsul.service"
-    sed -i '' "s|\$JAVA_PATH|$JAVA_PATH|g" "$SERVICE_FILE_PATH/kapsul.service"
-    sed -i '' "s|\$KAPSUL_CONFIG_PATH|$CONFIG_FILE_PATH/kapsul.conf|g" "$SERVICE_FILE_PATH/kapsul.service"
-    sed -i '' "s|\$KAPSUL_JAR_PATH|$BINARY_FILE_PATH/kapsul-$VERSION.jar|g" "$SERVICE_FILE_PATH/kapsul.service"
+    sed -i "s|\$KAPSUL_USER|root|g" "$SERVICE_FILE_PATH/kapsul.service"
+    sed -i "s|\$KAPSUL_WORK_DIR|$BINARY_FILE_PATH|g" "$SERVICE_FILE_PATH/kapsul.service"
+    sed -i "s|\$JAVA_PATH|$JAVA_PATH|g" "$SERVICE_FILE_PATH/kapsul.service"
+    sed -i "s|\$KAPSUL_CONFIG_PATH|$CONFIG_FILE_PATH/kapsul.conf|g" "$SERVICE_FILE_PATH/kapsul.service"
+    sed -i "s|\$KAPSUL_JAR_PATH|$BINARY_FILE_PATH/kapsul-$VERSION.jar|g" "$SERVICE_FILE_PATH/kapsul.service"
 
 echo -e "Step 6/$STEPS. Done.\n"
 
