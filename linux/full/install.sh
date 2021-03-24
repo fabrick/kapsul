@@ -133,6 +133,7 @@ echo "Step 6/$STEPS. Getting the service file ..."
     sed -i "s|\$KAPSUL_WORK_DIR|$BINARY_FILE_PATH|g" "$SERVICE_FILE_PATH/kapsul.service"
     sed -i "s|\$JAVA_PATH|$JAVA_PATH|g" "$SERVICE_FILE_PATH/kapsul.service"
     sed -i "s|\$KAPSUL_CONFIG_PATH|$CONFIG_FILE_PATH/kapsul.conf|g" "$SERVICE_FILE_PATH/kapsul.service"
+    sed -i "s|\$LOGBACK_CONFIG_PATH|$CONFIG_FILE_PATH/logback.xml|g" "$SERVICE_FILE_PATH/kapsul.service"
     sed -i "s|\$KAPSUL_JAR_PATH|$BINARY_FILE_PATH/kapsul-$VERSION.jar|g" "$SERVICE_FILE_PATH/kapsul.service"
 
 echo -e "Step 6/$STEPS. Done.\n"

@@ -12,6 +12,7 @@ WorkingDirectory=$KAPSUL_WORK_DIR
 ExecStart=$JAVA_PATH \
   -Dcom.ibm.as400.access.AS400.guiAvailable=false \
   -Dconfig.file=$KAPSUL_CONFIG_PATH \
+  -Dlogback.configurationFile=$LOGBACK_CONFIG_PATH \
   -jar $KAPSUL_JAR_PATH
 
 Restart=on-failure
