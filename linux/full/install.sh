@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# Check for root
+if [[ $(id -u) -ne 0 ]]; then
+  echo "This script must be executed as root or using sudo."
+  exit 99
+fi
+
+# Check for systemd
+systemd="$(ps --no-headers -o comm 1)"
+if [ ! "${systemd}" = "systemd" ]; then
+  echo "This system is not running systemd.  Exiting..."
+  exit 100
+fi
+
 function getJava() {
     if type -p java; then
         echo found java executable in PATH
@@ -32,10 +45,26 @@ KAPSUL_USER=root
 while getopts r:v:u:t: flag
 do
     case "${flag}" in
+        h)
+            echo "Use the following flags:"
+            echo "  -r"
+            echo "    to set registry token"
+            echo "  -v"
+            echo "    to set Kapsul version"
+            echo "  -u"
+            echo "    user to use"
+            echo "  -h"
+            echo "    to show help"
+            echo ""
+            exit 100
+            ;;
         r) REGISTRY_TOKEN=${OPTARG};;
         v) VERSION=${OPTARG};;
         u) KAPSUL_USER=${OPTARG};;
         t) TEST=true;;
+        \?)
+            echo "Invalid option: -${OPTARG}"
+            ;;
     esac
 done
 
@@ -88,9 +117,9 @@ echo "Step 5/$STEPS. Generating keys"
     echo "Admin key: $ADMIN_KEY"
 
 
-    CLIENT_KEY=$(uuidgen | sed -e "s/\-//g") 
-    sed -i '' "s|\$CLIENT_KEY|$CLIENT_KEY|g" "$CONFIG_FILE_PATH/kapsul.conf"
-    echo "Client key: $CLIENT_KEY"
+    USER_KEY=$(uuidgen | sed -e "s/\-//g") 
+    sed -i '' "s|\$USER_KEY|$USER_KEY|g" "$CONFIG_FILE_PATH/kapsul.conf"
+    echo "Client key: $USER_KEY"
 echo -e "Step 5/$STEPS. Done\n"
 
 # Get the service file
