@@ -140,5 +140,6 @@ echo -e "Step 6/$STEPS. Done.\n"
 
 echo "Step 7/$STEPS. Addind Kapsul to systemd ..."
     systemctl daemon-reload
+    systemctl enable kapsul.service
     systemctl start kapsul
 echo -e "Step 7/$STEPS. Done, enjoy :)\n"
