@@ -104,7 +104,7 @@ echo "Step 4/$STEPS. Getting the configuration file ..."
     sed -i "s|\$DATA_FOLDER|$DATA_FOLDER|g" "$CONFIG_FILE_PATH/kapsul.conf"
 
     # Edit logback file
-    HOME_LOG="$PATH_PREFIX/var/logs"
+    HOME_LOG="$PATH_PREFIX/var/log"
     mkdir -p $HOME_LOG
     sed -i "s|\${HOME_LOG}|$HOME_LOG|g" "$CONFIG_FILE_PATH/logback.xml"
 
