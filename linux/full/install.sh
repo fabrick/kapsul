@@ -1,5 +1,16 @@
 #!/bin/bash
 
+##
+## Kapsul installation script.
+## Copyright (c) 2021 Fabrick (https://fabrick.io)
+##
+## This script is inspired from :
+## * Root and systemd checks : thanks to Aaron Murray (Github: ryecoaaron) (https://github.com/OpenMediaVault-Plugin-Developers/installScript/blob/master/install) 
+## * Java check : thanks to glenn jackman (https://stackoverflow.com/a/7335524/2806806)
+##
+## Version 1.0.0
+##
+
 # Check for root
 if [[ $(id -u) -ne 0 ]]; then
   echo "This script must be executed as root or using sudo."
@@ -22,7 +33,7 @@ function getJava() {
         _java="$JAVA_HOME/bin/java"
     else
         echo "No java found. Please install a Java Runtime v1.8"
-        exit
+        exit 101
     fi
 
     if [[ "$_java" ]]; then
