@@ -103,8 +103,8 @@ echo -e "Step 3/$STEPS. Creating folder $CONFIG_FILE_PATH ...\n"
 # Get an edit confs files
 echo "Step 4/$STEPS. Getting the configuration file ..."
     # Download conf files
-    curl "https://raw.githubusercontent.com/fabrick/kapsul/main/linux/full/configs/kapsul.conf" -o $CONFIG_FILE_PATH/kapsul.conf
-    curl "https://raw.githubusercontent.com/fabrick/kapsul/main/linux/full/configs/logback.xml" -o $CONFIG_FILE_PATH/logback.xml
+    curl "https://raw.githubusercontent.com/fabrick/kapsul/main/linux/demo/configs/kapsul.conf" -o $CONFIG_FILE_PATH/kapsul.conf
+    curl "https://raw.githubusercontent.com/fabrick/kapsul/main/linux/demo/configs/logback.xml" -o $CONFIG_FILE_PATH/logback.xml
 
     # Edit conf file
     DATA_FOLDER=$BINARY_FILE_PATH/data
@@ -135,7 +135,7 @@ echo "Step 6/$STEPS. Getting the service file ..."
     getJava
     SERVICE_FILE_PATH="$PATH_PREFIX/etc/systemd/system/"
     mkdir -p $SERVICE_FILE_PATH
-    curl "https://raw.githubusercontent.com/fabrick/kapsul/main/linux/full/configs/kapsul.service" -o $SERVICE_FILE_PATH/kapsul.service
+    curl "https://raw.githubusercontent.com/fabrick/kapsul/main/linux/demo/configs/kapsul.service" -o $SERVICE_FILE_PATH/kapsul.service
     
     sed -i "s|\$KAPSUL_USER|root|g" "$SERVICE_FILE_PATH/kapsul.service"
     sed -i "s|\$KAPSUL_WORK_DIR|$BINARY_FILE_PATH|g" "$SERVICE_FILE_PATH/kapsul.service"
