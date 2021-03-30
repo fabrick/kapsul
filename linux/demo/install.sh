@@ -92,7 +92,7 @@ echo "Step 1/$STEPS. Creating folder $BINARY_FILE_PATH ..."
 
 # Get the JAR file
 echo "Step 2/$STEPS. Getting the jar file ..."
-    curl -L -o kapsul-$VERSION.jar https://github.com/fabrick/kapsul/releases/download/$VERSION/kapsul-demo.jar
+    curl -L -o $BINARY_FILE_PATH/kapsul-$VERSION.jar https://github.com/fabrick/kapsul/releases/download/$VERSION/kapsul-demo.jar
 echo -e "Step 2/$STEPS. Done.\n"
 
 # Get the configuration file
