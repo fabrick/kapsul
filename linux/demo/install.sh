@@ -53,13 +53,11 @@ function getJava() {
 KAPSUL_USER=root
 
 # Parse inputs
-while getopts r:v:u:t: flag
+while getopts v:u:t: flag
 do
     case "${flag}" in
         h)
             echo "Use the following flags:"
-            echo "  -r"
-            echo "    to set registry token"
             echo "  -v"
             echo "    to set Kapsul version"
             echo "  -u"
@@ -69,7 +67,6 @@ do
             echo ""
             exit 100
             ;;
-        r) REGISTRY_TOKEN=${OPTARG};;
         v) VERSION=${OPTARG};;
         u) KAPSUL_USER=${OPTARG};;
         t) TEST=true;;
@@ -95,7 +92,7 @@ echo "Step 1/$STEPS. Creating folder $BINARY_FILE_PATH ..."
 
 # Get the JAR file
 echo "Step 2/$STEPS. Getting the jar file ..."
-    curl --header "PRIVATE-TOKEN:$REGISTRY_TOKEN" "https://code.fabrick.io/api/v4/projects/189/packages/generic/kapsul/$VERSION/kapsul.jar" --output $BINARY_FILE_PATH/kapsul-$VERSION.jar
+    curl -L -o kapsul-$VERSION.jar https://github.com/fabrick/kapsul/releases/download/$VERSION/kapsul-demo.jar
 echo -e "Step 2/$STEPS. Done.\n"
 
 # Get the configuration file
