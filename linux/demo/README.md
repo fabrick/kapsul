@@ -8,7 +8,6 @@ First, you need to install dependencies:
 `` curl -Ls curl -o- https://raw.githubusercontent.com/fabrick/kapsul/main/linux/demo/install.sh | sudo bash -s -- -v $VERSION ``
 
 Where :
-* $TOKEN is the secret token to access Fabrick repository
 * $VERSION is the version of Kapsul
 
 
@@ -21,7 +20,6 @@ First, you need to install dependencies:
 `` curl -Ls curl -o- https://raw.githubusercontent.com/fabrick/kapsul/main/linux/demo/install.sh | sudo bash -s -- -v $VERSION ``
 
 Where :
-* $TOKEN is the secret token to access Fabrick repository
 * $VERSION is the version of Kapsul
 
 ## Debian installation
@@ -37,5 +35,4 @@ First, you need to install dependencies:
 `` curl -Ls curl -o- https://raw.githubusercontent.com/fabrick/kapsul/main/linux/demo/install.sh | sudo bash -s -- -v $VERSION ``
 
 Where :
-* $TOKEN is the secret token to access Fabrick repository
 * $VERSION is the version of Kapsul
