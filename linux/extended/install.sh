@@ -38,3 +38,8 @@ echo "Step 1/2 - Starting Prometheus service"
 systemctl start prometheus
 systemctl enable prometheus
 
+rm -rf prometheus-${RELEASE}.linux-amd64
+rm prometheus-${RELEASE}.linux-amd64.tar.gz
+echo "Step 1/2 - Prometheus successfully installed!"
+
+
