@@ -50,7 +50,7 @@ fi
 
 echo "Step 1/2 - Installing Grafana"
 
-systemctl is-active --quiet grafana
+systemctl is-active --quiet grafana-server
 if [ $? -eq 0 ]
 then
     echo "Grafana already running. Skip Grafana installation"
@@ -61,6 +61,8 @@ else
     echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
     apt-get update
     apt-get install grafana
-
+    systemctl daemon-reload
+    systemctl start grafana-server
+    systemctl enable grafana-server
     echo "Step 1/2 - Grafana successfully installed !"
 fi
