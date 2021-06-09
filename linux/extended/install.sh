@@ -10,7 +10,8 @@
 
 RELEASE="2.2.1"
 
-if [! systemctl is-active --quiet prometheus]
+systemctl is-active --quiet prometheus
+if [ $? -ne 0 ]
 then
     echo "Prometheus already running. Skip Prometheus installation"
 else
@@ -49,7 +50,9 @@ fi
 
 echo "Step 1/2 - Installing Grafana"
 
-if [! systemctl is-active --quiet grafana]
+systemctl is-active --quiet grafana
+
+if [ $? -ne 0 ]
 then
     echo "Grafana already running. Skip Grafana installation"
 else
