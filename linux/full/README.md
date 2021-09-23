@@ -39,3 +39,16 @@ First, you need to install dependencies:
 Where :
 * $TOKEN is the secret token to access Fabrick repository
 * $VERSION is the version of Kapsul
+
+## SUSE, SUSE Linux Enterprise Server 15 installation
+### Dependencies
+
+First, you need to install dependencies:
+* Java 11 : ``sudo zypper install -y java-11-openjdk-headless``
+
+### Start the script
+`` curl -Ls curl -o- https://raw.githubusercontent.com/fabrick/kapsul/main/linux/full/install.sh | sudo bash -s -- -r $TOKEN -v $VERSION ``
+
+Where :
+* $TOKEN is the secret token to access Fabrick repository
+* $VERSION is the version of Kapsul

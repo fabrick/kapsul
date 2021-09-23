@@ -36,3 +36,26 @@ First, you need to install dependencies:
 
 Where :
 * $VERSION is the version of Kapsul
+
+## CentOS installation
+### Dependencies
+First, you need to install dependencies:
+* Java 8 : ``sudo yum install java-1.8.0-openjdk``
+
+### Start the script
+`` curl -Ls curl -o- https://raw.githubusercontent.com/fabrick/kapsul/main/linux/demo/install.sh | sudo bash -s -- -v $VERSION ``
+
+Where :
+* $VERSION is the version of Kapsul
+
+## SUSE, SUSE Linux Enterprise Server 15 installation
+### Dependencies
+
+First, you need to install dependencies:
+* Java 11 : ``sudo zypper install -y java-11-openjdk-headless``
+
+### Start the script
+`` curl -Ls curl -o- https://raw.githubusercontent.com/fabrick/kapsul/main/linux/demo/install.sh | sudo bash -s -- -v $VERSION ``
+
+Where :
+* $VERSION is the version of Kapsul
