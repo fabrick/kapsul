@@ -68,7 +68,7 @@ then
     sed -i "s|\$JAVA_PATH|$JAVA_PATH|g" "$SERVICE_FILE_PATH/kapsul.service"
     sed -i "s|\$KAPSUL_CONFIG_PATH|$CONFIG_FILE_PATH/kapsul.conf|g" "$SERVICE_FILE_PATH/kapsul.service"
     sed -i "s|\$LOGBACK_CONFIG_PATH|$CONFIG_FILE_PATH/logback.xml|g" "$SERVICE_FILE_PATH/kapsul.service"
-    sed -i "s|\$KAPSUL_JAR_PATH|$BINARY_FILE_PATH/kapsul-.jar|g" "$SERVICE_FILE_PATH/kapsul.service"
+    sed -i "s|\$KAPSUL_JAR_PATH|$BINARY_FILE_PATH/kapsul.jar|g" "$SERVICE_FILE_PATH/kapsul.service"
     systemctl daemon-reload
     systemctl enable kapsul.service
     systemctl start kapsul
