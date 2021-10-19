@@ -1,3 +1,5 @@
+#!/bin/bash
+
 RELEASE="2.2.1"
 
 # Parse inputs
