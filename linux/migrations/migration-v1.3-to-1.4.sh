@@ -50,3 +50,4 @@ then
 
 else
     echo "Kapsul not installed."
+fi
