@@ -2,6 +2,17 @@
 
 RELEASE="2.2.1"
 
+
+# If test mode enable, add relative path
+if [ "$TEST" = true ] ; then
+    PATH_PREFIX='./test'
+else 
+    PATH_PREFIX=''
+fi
+
+BINARY_FILE_PATH="$PATH_PREFIX/opt/kapsul"
+
+
 # Parse inputs
 while getopts r:v:u:t: flag
 do
