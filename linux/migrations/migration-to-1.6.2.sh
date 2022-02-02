@@ -55,7 +55,7 @@ systemctl is-active --quiet kapsul
 if [ $? -eq 0 ]
 then
     systemctl stop kapsul
-    curl --header "PRIVATE-TOKEN:$REGISTRY_TOKEN" "https://code.fabrick.io/api/v4/projects/189/packages/generic/kapsul/1.4.0/kapsul.jar" --output $BINARY_FILE_PATH/kapsul.jar 
+    curl --header "PRIVATE-TOKEN:$REGISTRY_TOKEN" "https://code.fabrick.io/api/v4/projects/189/packages/generic/kapsul/1.6.2/kapsul.jar" --output $BINARY_FILE_PATH/kapsul.jar 
     # Get the service file
     echo "Step 6/$STEPS. Getting the service file ..."
     getJava
